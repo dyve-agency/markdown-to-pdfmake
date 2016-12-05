@@ -1,13 +1,10 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import MarkdownIt from 'markdown-it'
-import render from '../src/renderer'
-
-const md = new MarkdownIt()
+import markdownToPdfmake from '../src/index'
 
 describe('render', () => {
   it('should always return an array', () => {
-    const result = render([])
+    const result = markdownToPdfmake([])
     expect(result).to.eql([])
   })
 
@@ -15,8 +12,7 @@ describe('render', () => {
     describe('Emphasis', () => {
       it('should return an array with one text element which is italic', () => {
         const text = '*This is italic text*'
-        const tokens = md.parseInline(text, {})
-        const result = render(tokens)
+        const result = markdownToPdfmake(text)
         expect(result).to.eql([{ text: 'This is italic text', italics: true }])
       })
     })
@@ -24,8 +20,7 @@ describe('render', () => {
     describe('Strong', () => {
       it('should return an array with one text element which is bold', () => {
         const text = '**This is bold text**'
-        const tokens = md.parseInline(text, {})
-        const result = render(tokens)
+        const result = markdownToPdfmake(text)
         expect(result).to.eql([{ text: 'This is bold text', bold: true }])
       })
     })
@@ -33,8 +28,7 @@ describe('render', () => {
     describe('Emphasis and Strong combined', () => {
       it('should return an array with one text element which is italic', () => {
         const text = '*This is **italic** text*'
-        const tokens = md.parseInline(text, {})
-        const result = render(tokens)
+        const result = markdownToPdfmake(text)
         console.log(result)
         expect(result).to.eql(
           [
@@ -58,8 +52,7 @@ describe('render', () => {
         text += '2. Consectetur adipiscing elit\n'
         text += '3. Integer molestie lorem at massa\n'
 
-        const tokens = md.parse(text, {})
-        const result = render(tokens)
+        const result = markdownToPdfmake(text)
         expect(result).to.eql(
           [
             {
@@ -73,5 +66,7 @@ describe('render', () => {
         )
       })
     })
+  })
+  describe('Table', () => {
   })
 })
